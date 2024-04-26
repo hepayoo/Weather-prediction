@@ -1,0 +1,18 @@
+  .condition-rain {
+    font-size: 13px;
+    text-transform: capitalize;
+    position:relative;
+    transform: translateY(-13rem);
+  }
+  
+  .condition-rain div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 9px;
+  }
+  
+  .condition-rain div i {
+    width: 20px; 
+  }
+  
