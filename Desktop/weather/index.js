@@ -1,5 +1,7 @@
 const temp = document.getElementById('temp'),
-date = document.getElementById('date-time');
+date = document.getElementById('date-time'),
+currentLocation = document.getElementById('location');
+
 
 
 let currentCity = "";
@@ -42,7 +44,9 @@ setInterval(() => {
 
 
 function getPublicIp(){
-  fetch("https://geolocation-db.com/json/", { method: "GET", })
+  
+  
+  fetch("https://ipinfo.io/json", { method: "GET", })
   .then((response) => response.json())
   .then((data) => {
     
@@ -70,9 +74,19 @@ function getWeatherData(city, unit ,hourlyorWeek){
   if(unit=== "c"){
     temp.innerText = today.temp
   }
+  console.log(data);
+
+  
+  currentLocation.innerText=data.timezone; 
+ 
  
 
 });
 }
+
+
+
+
+
 
   
