@@ -16,7 +16,8 @@ airQualityStatus = document.querySelector(".air-quality-status"),
 visibilityStatus = document.querySelector(".visibility-status"),
 weatherCards = document.querySelector('#weather-cards'),
 hourlyBtn = document.querySelector(".hourly"),
-weekBtn = document.querySelector(".week");
+weekBtn = document.querySelector(".week"),
+searchForm = document.querySelector('#search');
 
 
 
@@ -66,7 +67,7 @@ function getPublicIp(){
   .then((response) => response.json())
   .then((data) => {
     
-    currentCity = data.currentCity;
+    currentCity = data.city;
     
     
     getWeatherData(data.city, currentUnit, hourlyorWeek);
@@ -107,10 +108,11 @@ function getWeatherData(city, unit ,hourlyorWeek){
   updateVisibilityStatus(today.visibility);
   updateAirQualityStatus(today.widdir);
 
-  SunRise.innerText = today.sunrise + "am";
-  SunSet.innerText = today.sunset + "pm";
+  SunRise.innerText = today.sunrise +  "am";
+  SunSet.innerText = today.sunset +  "pm";
   mainIcon.src =  getIcon(condition);
-  console.log(icon);
+  
+
 
   if (hourlyorWeek==="hourly"){
     updateForecast(data.days[0].hours , unit , "day");
@@ -121,7 +123,11 @@ function getWeatherData(city, unit ,hourlyorWeek){
  
  
 
-});
+})
+
+.catch((err)=>{
+  alert("City not found :( try again ");
+})
 }
 
 
@@ -302,6 +308,8 @@ day++;
 }
 
 
+
+
 // weekly and everyday
 hourlyBtn.addEventListener("click", () => {
  
@@ -326,6 +334,21 @@ function changeTimeSpan (unit){
   }
 }
 
+searchForm.addEventListener("submit" , (e) => {
+  e.preventDefault();
+  
+  let location = searchForm.querySelector('#query').value;
+  console.log(location);
+  if (location){
+    currentCity = location;
+
+    
+
+    console.log(currentCity);
+    getWeatherData(currentCity, currentUnit, hourlyorWeek);
+    
+  }
+})
 
 
 
