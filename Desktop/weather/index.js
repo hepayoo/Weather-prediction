@@ -14,7 +14,9 @@ humidityStatus = document.querySelector(".humidity-status"),
 airQuality = document.querySelector(".air-quality"),
 airQualityStatus = document.querySelector(".air-quality-status"),
 visibilityStatus = document.querySelector(".visibility-status"),
-weatherCards = document.querySelector('#weather-cards');
+weatherCards = document.querySelector('#weather-cards'),
+hourlyBtn = document.querySelector(".hourly"),
+weekBtn = document.querySelector(".week");
 
 
 
@@ -107,7 +109,7 @@ function getWeatherData(city, unit ,hourlyorWeek){
 
   SunRise.innerText = today.sunrise + "am";
   SunSet.innerText = today.sunset + "pm";
-  mainIcon.src = getIcon(today.icon);
+  mainIcon.src =  getIcon(condition);
   console.log(icon);
 
   if (hourlyorWeek==="hourly"){
@@ -231,7 +233,7 @@ function getIcon(condition){
 
   }
   else{
-    return "pics/sunny-removebg-preview.png";
+    return  "pics/Premium_Vector___3d_vector_realistic_render_white_fluffy_cloud_illustration_design-removebg-preview.png";
   }
 
 
@@ -298,6 +300,32 @@ weatherCards.appendChild(card);
 day++;
 }
 }
+
+
+// weekly and everyday
+hourlyBtn.addEventListener("click", () => {
+ 
+   changeTimeSpan("hourly");
+});
+weekBtn.addEventListener("click", () => {
+  changeTimeSpan("week");
+});
+
+function changeTimeSpan (unit){
+  if(hourlyorWeek !== unit){
+    hourlyorWeek = unit;
+    if(unit ==="hourly"){
+      hourlyBtn.classList.add("active");
+      weekBtn.classList.remove("active");
+    }else{
+      hourlyBtn.classList.remove("active");
+      weekBtn.classList.add("active");
+    }
+
+    getWeatherData(currentCity, currentUnit, hourlyorWeek);
+  }
+}
+
 
 
 
