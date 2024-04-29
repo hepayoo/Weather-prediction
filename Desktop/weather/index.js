@@ -13,7 +13,8 @@ visibility = document.querySelector(".visibility"),
 humidityStatus = document.querySelector(".humidity-status"),
 airQuality = document.querySelector(".air-quality"),
 airQualityStatus = document.querySelector(".air-quality-status"),
-visibilityStatus = document.querySelector(".visibility-status");
+visibilityStatus = document.querySelector(".visibility-status"),
+weatherCards = document.querySelector('#weather-cards');
 
 
 
@@ -108,6 +109,12 @@ function getWeatherData(city, unit ,hourlyorWeek){
   SunSet.innerText = today.sunset + "pm";
   mainIcon.src = getIcon(today.icon);
   console.log(icon);
+
+  if (hourlyorWeek==="hourly"){
+    updateForecast(data.days[0].hours , unit , "day");
+  }else{
+    updateForecast(data.days,unit , "week");
+  }
 
  
  
@@ -228,6 +235,68 @@ function getIcon(condition){
   }
 
 
+}
+
+function getDayName(date){
+  let day = new Date(date);
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tueday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+
+  ];
+  return days[day.getDay()];
+
+}
+function getHour(time){
+  let hour = time.split(":")[0];
+  let min =  time.split(":")[1];
+  return ` ${hour}:${min}`;
+
+}
+
+
+// update cards
+function updateForecast(data,unit,type){
+weatherCards.innerHTML = "";
+let day=0;
+let numCards = 0;
+if(type==="day"){
+  numCards=24;
+}else{
+  numCards = 7;
+}
+for(let i=0;i<numCards;i++){
+  let card = document.createElement("div");
+  card.classList.add("card");
+  let dayName = getHour(data[day].datetime);
+  if(type==="week"){
+    dayName=getDayName(data[day].datetime);
+
+  }
+  let dayTemp= data[day].temp;
+  let iconCondition = data[day].icon;
+  let iconSrc =getIcon(iconCondition) ;
+  
+card.innerHTML = ` 
+
+
+<h2 class="day-name">${dayName}</h2>
+<div class="card-icon">
+    <img src="${iconSrc}" alt="">
+</div>
+<div class="day-temp">
+  <h2 class="temp">${dayTemp}</h2>
+  <span class="temp-unit">°C</span>
+</div>
+`;
+weatherCards.appendChild(card);
+day++;
+}
 }
 
 
