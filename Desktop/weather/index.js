@@ -88,6 +88,7 @@ function getWeatherData(city, unit ,hourlyorWeek){
 .then((response)=> response.json())
 .then((data)=>{
   let today = data.currentConditions;
+ 
   if(unit=== "c"){
     temp.innerText = today.temp
   }
@@ -113,8 +114,7 @@ function getWeatherData(city, unit ,hourlyorWeek){
   SunSet.innerText = today.sunset +  "pm";
   mainIcon.src =  getIcon(today.icon);
   
-
-
+ 
 
 
 
@@ -123,12 +123,12 @@ function getWeatherData(city, unit ,hourlyorWeek){
   }else{
     updateForecast(data.days,unit , "week");
   }
-
+  
+  updateTemperaturesAndDrawChart(data.days, hourlyorWeek); 
 })
 
-.catch((err)=>{
-  alert("City not found :( try again ");
-})
+
+
 }
 
 
@@ -274,6 +274,8 @@ function updateForecast(data,unit,type){
 weatherCards.innerHTML = "";
 let day=0;
 let numCards = 0;
+let temps = [];
+
 if(type==="day"){
   numCards=24;
 }else{
@@ -283,6 +285,9 @@ for(let i=0;i<numCards;i++){
   let card = document.createElement("div");
   card.classList.add("card");
   let dayName = getHour(data[day].datetime);
+ 
+  
+
   if(type==="week"){
     dayName=getDayName(data[day].datetime);
 
@@ -306,6 +311,7 @@ card.innerHTML = `
 weatherCards.appendChild(card);
 day++;
 }
+
 }
 
 // function to change background
@@ -372,7 +378,7 @@ searchForm.addEventListener("submit" , (e) => {
   e.preventDefault();
   
   let location = searchForm.querySelector('#query').value;
-  console.log(location);
+  
   if (location){
     currentCity = location;
 
@@ -380,14 +386,58 @@ searchForm.addEventListener("submit" , (e) => {
 
     console.log(currentCity);
     getWeatherData(currentCity, currentUnit, hourlyorWeek);
+   
     
+  }
+  else{
+    alert("city not found");
   }
 })
 
+let temperatures = [];
 
 
-
-
-
-
+function updateTemperaturesAndDrawChart(data,hourlyorWeek) {
+    
+    temperatures = [];
   
+    
+    data.forEach(dayData => {
+        temperatures.push(dayData.temp); 
+    });
+  
+    
+    createChart(temperatures);
+}
+
+
+// get graphe
+function createChart(temperatures){
+
+  const myChart = document.getElementById('myChart').getContext('2d');
+  let mbChart;
+
+  if (Chart.getChart(myChart)) {
+    
+    mbChart = Chart.getChart(myChart);
+    mbChart.data.labels = ['Sunday', 'Monday', 'tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    mbChart.data.datasets[0].data = temperatures;
+    mbChart.update();
+  } else {
+    // Create a new chart
+    mbChart = new Chart(myChart, {
+      type: 'bar',
+      data: {
+        labels: ['Sunday', 'Monday', 'tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        datasets: [{
+          label: 'Temperature °C',
+          data: temperatures,
+        }],
+      },
+      options: {},
+    });
+  }
+}
+
+
+

@@ -297,6 +297,8 @@ nav .options {
   font-size: 1.875rem;
 }
 
+
+
 @media screen and (max-width: 1024px) {
   .wrapper {
     flex-direction: column;
