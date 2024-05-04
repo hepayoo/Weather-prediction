@@ -16,11 +16,13 @@
     
     justify-content: center;
     min-height: 100vh;
-    min-width: 6.25rem;
-    padding: 1.25rem;
+    min-width: 6rem;
+    padding: 2rem;
     background: var(--primary-clr);
     transition: background-image 0.3s ease;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5)),url(pics/Daytime\ Miving\ GIF\ -\ Daytime\ Miving\ Clouds\ -\ Discover\ &\ Share\ GIFs.gif);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0,0,0,0.5)),url("pics/Daytime\ Miving\ GIF\ -\ Daytime\ Miving\ Clouds\ -\ Discover\ &\ Share\ GIFs.gif");
+    background-size:cover ;
+    background-position: center;
 
   }
   img {
@@ -31,7 +33,7 @@
   }
   .wrapper {
     display: flex;
-    width: 75rem;
+    width: 74rem;
     min-width: 56.25rem;
     border-radius: 1.25rem;
     overflow: hidden;
@@ -217,6 +219,8 @@ nav .options {
   flex-wrap: wrap;
   gap: 1.25rem;
   margin-top: 3.125rem;
+  
+  
 }
 
 .cards .card {

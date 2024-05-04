@@ -107,11 +107,15 @@ function getWeatherData(city, unit ,hourlyorWeek){
   updateHumidityStatus(today.humidity);
   updateVisibilityStatus(today.visibility);
   updateAirQualityStatus(today.widdir);
+  changeBackground(today.icon);
 
   SunRise.innerText = today.sunrise +  "am";
   SunSet.innerText = today.sunset +  "pm";
-  mainIcon.src =  getIcon(condition);
+  mainIcon.src =  getIcon(today.icon);
   
+
+
+
 
 
   if (hourlyorWeek==="hourly"){
@@ -119,9 +123,6 @@ function getWeatherData(city, unit ,hourlyorWeek){
   }else{
     updateForecast(data.days,unit , "week");
   }
-
- 
- 
 
 })
 
@@ -307,7 +308,40 @@ day++;
 }
 }
 
+// function to change background
+function changeBackground(condition){
+  const body =document.querySelector("body");
+  let bg = "";
+  if(condition=== "partly-cloudy-night" || condition==="overcast-night" ){
+    bg = "pics/Cloudy Night Sky Background.jpeg";
+  }
 
+  else if (condition==="partly-cloudy-day" || condition==="overcast-day"){
+    bg =  "pics/téléchargement (3).jpeg";
+
+  }
+  else if (condition==="rain-night" ){
+    bg = "pics/tumblr_mtu9dvbri41s19pnbo1_500_gif (500×281).gif";
+
+  }
+  else if (condition==="rain-day" ){
+    bg = "pics/🍄 - @el1zab3th_.gif";
+
+  }
+  else if (condition==="clear-day" ){
+    bg = "pics/Herfølge.jpeg";
+
+  }
+  else if (condition==="clear-night" ){
+    bg = "pics/Oil Palm Tree Plantation Against Full Stock Footage Video (100% Royalty-free) 16408564 _ Shutterstock.jpeg";
+
+  }
+  else{
+    bg =  "pics/Daytime Miving GIF - Daytime Miving Clouds - Discover & Share GIFs.gif";
+  }
+
+   body.style.backgroundImage =` linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(${bg})`;
+}
 
 
 // weekly and everyday
